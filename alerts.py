@@ -1,9 +1,13 @@
 # alerts.py - background watcher. Run in a second terminal:  python alerts.py
-# Needs (set as environment variables): TELEGRAM_TOKEN, TELEGRAM_CHAT_ID  (free, instant)
+# Reads secrets from .env (or the process environment): TELEGRAM_TOKEN, TELEGRAM_CHAT_ID
 # Optional SMS via Fast2SMS: FAST2SMS_KEY, SMS_NUMBER.  Optional: MIN_SCORE (65), CHECK_SECONDS (60), ALWAYS=1 (test outside market hours)
 import os, time, json, requests, datetime as dt
+from pathlib import Path
+from dotenv import load_dotenv
 import yfinance as yf
 from engine import *
+
+load_dotenv(Path(__file__).with_name(".env"))
 
 clean = lambda v: (v or "").strip().strip("\"\'<> ")
 TOKEN, CHAT = clean(os.getenv("TELEGRAM_TOKEN")), clean(os.getenv("TELEGRAM_CHAT_ID"))
